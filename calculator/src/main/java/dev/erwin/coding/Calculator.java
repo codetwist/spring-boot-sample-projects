@@ -12,10 +12,14 @@ import java.util.function.BiFunction;
  */
 public class Calculator {
 
-    private Number computedResult;
+    final private Number computedResult;
 
     public Calculator(){
         this.computedResult = 0;
+    }
+
+    private Calculator(Number computedResult) {
+        this.computedResult = computedResult;
     }
 
     /**
@@ -31,8 +35,8 @@ public class Calculator {
         Objects.requireNonNull(number2, "number2 cannot be null");
         Objects.requireNonNull(operation, "operation cannot be null");
         BiFunction<Number, Number, Number> biFunction = operation.getBiFunction();
-        this.computedResult = biFunction.apply(number1, number2);
-        return this;
+        Number result = biFunction.apply(number1, number2);
+        return new Calculator(result);
     }
 
     /**
@@ -47,8 +51,8 @@ public class Calculator {
         Objects.requireNonNull(number, "number cannot be null");
         Objects.requireNonNull(operation, "operation cannot be null");
         BiFunction<Number, Number, Number> biFunction = operation.getBiFunction();
-        this.computedResult = biFunction.apply(this.computedResult, number);
-        return this;
+        Number result = biFunction.apply(this.computedResult, number);
+        return new Calculator(result);
     }
 
     /**
